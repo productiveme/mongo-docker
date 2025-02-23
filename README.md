@@ -10,6 +10,7 @@ This repository provides a Docker-based solution for setting up a single instanc
 ## Setup Instructions
 
 1. **Clone the Repository:**
+
    ```bash
    git clone https://github.com/productiveme/mongo-docker.git
    cd mongo-docker
@@ -17,6 +18,7 @@ This repository provides a Docker-based solution for setting up a single instanc
 
 2. **Install direnv (optional):**
    direnv is used to manage environment variables for this project. To install direnv, follow these steps:
+
    - On macOS:
      ```bash
      brew install direnv
@@ -35,35 +37,42 @@ This repository provides a Docker-based solution for setting up a single instanc
      source ~/.bashrc  # or ~/.zshrc
      ```
 
-3. **Initialize direnv:**
-   Run the following command in the project directory to allow direnv to load the `.envrc` file:
+3. **Ensure environment variables are set:**
+
+   1. (With direnv) Run the following command in the project directory to allow direnv to load the `.envrc` file:
+
    ```bash
    direnv allow .
    ```
 
-4. **Start the MongoDB Replicaset:**
-   - If using Docker Compose:
-     ```bash
-     docker-compose up -d
-     ```
-   - If using Docker directly:
-     ```bash
-     docker build -t mongo-replicaset .
-     docker run --name mongo-replicaset -d -p 27017:27017 mongo-replicaset
-     ```
+   2. (Without direnv) `export MONGO_INITDB_ROOT_USERNAME=your_username` and `export MONGO_INITDB_ROOT_PASSWORD=your_password`
 
-5. **Verify the Replicaset:**
+4. **Build the Docker Image:**
+
+   ```bash
+   yarn makekey
+   yarn dockerbuild
+   ```
+
+5. **Start the MongoDB Replicaset:**
+
+   ```bash
+   yarn dockerrun
+   ```
+
+6. **Verify the Replicaset:**
    Connect to the MongoDB instance and check the replicaset status:
    ```bash
-   docker exec -it mongo-replicaset mongo
+   docker exec -it mongodb mongosh -u $MONGO_INITDB_ROOT_USERNAME -p $MONGO_INITDB_ROOT_PASSWORD
    rs.status()
    ```
 
 ## Usage
 
 Once the replicaset is running, you can connect to it using MongoDB clients or drivers. The connection string would typically be:
+
 ```
-mongodb://localhost:27017
+mongodb://username:password@localhost:27017
 ```
 
 ## Contributing

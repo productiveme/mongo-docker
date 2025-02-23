@@ -1,0 +1,15 @@
+{
+  "name": "mongo-docker",
+  "version": "1.0.0",
+  "description": "",
+  "main": "mongo-init.js",
+  "scripts": {
+    "makekey": "openssl rand -base64 756 > replica.key",
+    "dockerbuild": "docker build -t mongodb-replica .",
+    "dockerrun": "docker run -d --name mongodb -p 27017:27017 -e MONGO_INITDB_ROOT_USERNAME -e MONGO_INITDB_ROOT_PASSWORD -v mongo-data:/data/db -v mongo-keyfile:$(pwd)/replica.key mongodb-replica"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs"
+}

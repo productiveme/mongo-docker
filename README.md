@@ -72,7 +72,15 @@ This repository provides a Docker-based solution for setting up a single instanc
 Once the replicaset is running, you can connect to it using MongoDB clients or drivers. The connection string would typically be:
 
 ```
-mongodb://username:password@localhost:27017
+mongodb://username:password@localhost:27017/dbname?authSource=admin
+```
+
+Or you can create a database and user like this:
+
+```
+docker exec -it mongodb mongosh -u $MONGO_INITDB_ROOT_USERNAME -p $MONGO_INITDB_ROOT_PASSWORD
+use dbname
+db.createUser({user: "username", pwd: "password", roles: ["dbOwner"]})
 ```
 
 ## Contributing
